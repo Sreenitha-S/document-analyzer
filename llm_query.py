@@ -59,7 +59,7 @@ def query_document(question, index_folder,tokenizer, device, embed_model, top_k=
     D, I = index.search(query_vec, k=top_k)
     context_chunks = [metadata[i] for i in I[0] if i < len(metadata)]
     context = "\n".join(context_chunks)
-    context = context[:1500]  # Truncate to fit LLaMA's context window
+   # context = context[:1500]  # Truncate to fit LLaMA's context window
     answer = answer_with_llama(context, question)
     return answer, context_chunks
       

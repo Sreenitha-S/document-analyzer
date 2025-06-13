@@ -1,0 +1,10 @@
+faiss-cpu
+torch
+numpy
+streamlit
+transformers
+llama-cpp-python
+PyPDF2
+python-docx
+requests
+
