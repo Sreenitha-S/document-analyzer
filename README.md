@@ -103,3 +103,42 @@ Follow these steps to set up the Python environment and run the application.
 * `indexing.py`: Contains functions for document processing (text extraction, chunking, embedding, FAISS indexing).
 * `llm_query.py`: Contains functions for querying the index and making API requests to the Ollama server.
 * `requirements.txt`: A list of all required Python packages.
+
+#Document Analyzer App (Offline)
+
+This project presents an **offline-capable Document Analyzer App** built using Python's `tkinter` for the graphical user interface, enabling users to chat with their documents locally. You can upload PDF, DOCX, or TXT files, and the application will process, index, and allow you to query their content.
+
+The application uses a **local Llama 3.2-3B model** for question-answering, served via the Ollama server API. For embedding text, it utilizes the `sentence-transformers/all-MiniLM-L6-v2` model, loaded directly through the `transformers` library.
+
+## How It Works
+
+The application employs a **RAG (Retrieval-Augmented Generation) architecture**:
+
+1.  **Document Upload & Processing**: Users upload a document through the `tkinter` interface. The text is extracted from the document and then split into smaller, overlapping chunks.
+2.  **Embedding & Indexing**: Each text chunk is converted into a numerical vector (embedding) using the `sentence-transformers/all-MiniLM-L6-v2` model, loaded and run locally. These vectors are then stored in a high-speed **FAISS vector index** on the local disk.
+3.  **User Query**: The user asks a question in the chat interface.
+4.  **Similarity Search**: The user's question is also converted into an embedding using the same local embedding model. The FAISS index is then searched to find the text chunks from the document that are most semantically similar to the question.
+5.  **LLM Answering**: These relevant text chunks (the "context") and the original question are sent in a formatted prompt to the **locally running Ollama API endpoint**.
+6.  **Display Answer**: The LLaMA 3.2 model generates an answer based on the provided context, which is then displayed to the user in the chat interface.
+
+## Prerequisites
+
+Before running the application, you must have the Ollama Server installed and running with the correct model.
+
+### Setting up Ollama and Llama 3.2-3B (Step-by-Step)
+
+1.  **Download and Install Ollama**:
+    * Go to the official Ollama website: [https://ollama.com](https://ollama.com)
+    * Download and run the installer for your operating system (Windows, macOS, or Linux).
+
+2.  **Pull the Llama 3.2 Model**:
+    * Once Ollama is installed, open your terminal (Command Prompt, PowerShell, or Terminal on Mac/Linux).
+    * Run the following command to download and set up the `llama3.2:3b` model:
+        ```bash
+        ollama run llama3.2:3b
+        ```
+    * This command will download the model and start the Ollama server. You can type `/bye` to exit the prompt once it's ready.
+
+3.  **Ensure the Ollama Server is Running**:
+    * The Ollama application must be running in the background. On Windows and macOS, it usually runs automatically and has an icon in your system tray or menu bar.
+    * You can verify the model is available by running `ollama list` in your terminal. You should see `llama3.2:3b` in the output.
