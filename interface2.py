@@ -1,14 +1,17 @@
+import os
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # FIX: To prevent OpenMP runtime error
+
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext, messagebox
-import os
 import threading
 from queue import Queue
 import torch
 from transformers import AutoTokenizer, AutoModel
 
-# --- Import your refactored backend modules ---
-import indexing
-import llm_query
+# --- Import your refactored backend modules with new names ---
+import indexing2
+import llm_query2
 
 # --- Configuration ---
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -20,7 +23,6 @@ class DocQAApp:
         self.root = root
         self.root.title("Document Q&A (Offline)")
         self.root.geometry("1100x800")
-        #  Set main background to black
         self.root.configure(bg="black")
 
         self.style = self.setup_styles()
@@ -30,7 +32,6 @@ class DocQAApp:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.tokenizer, self.embed_model = self.load_embedding_model()
 
-        # Main frame
         main_frame = ttk.Frame(root, padding="10", style="App.TFrame")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
@@ -56,25 +57,20 @@ class DocQAApp:
     def setup_styles(self):
         style = ttk.Style()
         style.theme_use('clam')
-
-        #  Update frame and label backgrounds
         style.configure("App.TFrame", background="black")
-        style.configure("Section.TFrame", background="#1c1c1c")  # Very dark gray for sections
+        style.configure("Section.TFrame", background="#1c1c1c")
         style.configure("TLabel", background="black", foreground="white", font=('Segoe UI', 10))
         style.configure("Header.TLabel", font=('Segoe UI', 14, 'bold'), background="#1c1c1c")
         style.configure("SubHeader.TLabel", font=('Segoe UI', 10), background="#1c1c1c")
         style.configure("Status.TLabel", font=('Segoe UI', 10), background="#1c1c1c")
-
         style.configure("TButton", background="#333333", foreground="white", font=('Segoe UI', 10, 'bold'),
                         borderwidth=1, relief="solid")
         style.map("TButton", background=[('active', '#555555')])
-
-        self.root.option_add('*Text*background', '#101010')  # Even darker text background
+        self.root.option_add('*Text*background', '#101010')
         self.root.option_add('*Text*foreground', '#d4d4d4')
         self.root.option_add('*Text*font', ('Consolas', 11))
         self.root.option_add('*Text*selectBackground', '#007acc')
         self.root.option_add('*Text*insertBackground', 'white')
-
         return style
 
     def create_upload_section(self, parent):
@@ -136,8 +132,8 @@ class DocQAApp:
 
     def _index_document_worker(self):
         try:
-            indexing.process_and_index_document(self.file_path, self.tokenizer, self.device, self.embed_model,
-                                                INDEX_OUTPUT_FOLDER)
+            indexing2.process_and_index_document(self.file_path, self.tokenizer, self.device, self.embed_model,
+                                                 INDEX_OUTPUT_FOLDER)
             self.queue.put(("indexing_success", "Document processed and indexed successfully!"))
         except Exception as e:
             self.queue.put(("error", f"Indexing Error: {e}"))
@@ -161,8 +157,8 @@ class DocQAApp:
 
     def _query_document_worker(self, question):
         try:
-            answer, context_chunks = llm_query.query_document(question, INDEX_OUTPUT_FOLDER, self.tokenizer,
-                                                              self.device, self.embed_model)
+            answer, context_chunks = llm_query2.query_document(question, INDEX_OUTPUT_FOLDER, self.tokenizer,
+                                                               self.device, self.embed_model)
             self.queue.put(("new_answer", (answer, context_chunks)))
         except Exception as e:
             self.queue.put(("error", f"Query Error: {e}"))
