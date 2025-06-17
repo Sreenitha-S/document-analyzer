@@ -1,4 +1,4 @@
-# Document Analyzer App
+# Document Analyzer App (Using Streamlit)
 
 **Models Used**:sentence transformers and Llama 3.2-3B served via Ollama.  
 
