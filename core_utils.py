@@ -1,4 +1,6 @@
 import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE" # FIX: To prevent OpenMP runtime error
+
 import torch
 from transformers import AutoTokenizer, AutoModel
 from PyPDF2 import PdfReader
