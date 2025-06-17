@@ -181,17 +181,17 @@ Follow these steps to set up the Python environment and run the application.
  ## How to Use the App
  
 1.  **Document Upload & Processing**: Users upload a document through the `tkinter` interface. The text is extracted from the document and then split into smaller, overlapping chunks.
-    ![Alt text for the image](images/s.1png)
-2.  **Embedding & Indexing**: Each text chunk is converted into a numerical vector (embedding) using the `sentence-transformers/all-MiniLM-L6-v2` model, loaded and run locally. These vectors are then stored in a high-speed **FAISS vector index** on the local disk.
-    ![Alt text for the image](images/s.2png)
-3. **User Query**: The user asks a question in the chat interface.
-    ![Alt text for the image](images/s.3png)
-4.  **Similarity Search**: The user's question is also converted into an embedding using the same local embedding model. The FAISS index is then searched to find  the text chunks from the document that are most semantically similar to the question.
-    ![Alt text for the image](images/s.4png)
-5.  **LLM Answering**: The relevant text chunks (the "context") and the original question are sent in a formatted prompt to the **locally running Ollama API endpoint**.
-    ![Alt text for the image](images/s.5png)
-6. **Display Answer**: The LLaMA 3.2 model then generates an answer based on the provided context, which is immediately displayed to the user in the chat interface.
-    ![Alt text for the image](images/s.6png)
+  ![Alt text for the image](images/s.1.png)
+1.  **Embedding & Indexing**: Each text chunk is converted into a numerical vector (embedding) using the `sentence-transformers/all-MiniLM-L6-v2` model, loaded and run locally. These vectors are then stored in a high-speed **FAISS vector index** on the local disk.
+   ![Alt text for the images](images/s.2.png)
+2. **User Query**: The user asks a question in the chat interface.
+   ![Alt text for the image](images/s.3.png)
+3.  **Similarity Search**: The user's question is also converted into an embedding using the same local embedding model. The FAISS index is then searched to find  the text chunks from the document that are most semantically similar to the question.
+   ![Alt text for the image](images/s.4.png)
+4.  **LLM Answering**: The relevant text chunks (the "context") and the original question are sent in a formatted prompt to the **locally running Ollama API endpoint**.
+  ![Alt text for the image](images/s.5.png)
+5. **Display Answer**: The LLaMA 3.2 model then generates an answer based on the provided context, which is immediately displayed to the user in the chat interface.
+   ![Alt text for the image](images/s.6.png)
 
  ## File Structure
 
