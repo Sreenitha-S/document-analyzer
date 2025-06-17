@@ -1,4 +1,7 @@
 import os
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # FIX: To prevent OpenMP runtime error
+
 import faiss
 import pickle
 import requests
