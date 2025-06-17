@@ -104,7 +104,7 @@ Follow these steps to set up the Python environment and run the application.
 * `llm_query.py`: Contains functions for querying the index and making API requests to the Ollama server.
 * `requirements.txt`: A list of all required Python packages.
 
-#Document Analyzer App (using Tkinter)
+# Document Analyzer App (using Tkinter)
 
 This project presents an **offline-capable Document Analyzer App** built using Python's `tkinter` for the graphical user interface, enabling users to chat with their documents locally. You can upload PDF, DOCX, or TXT files, and the application will process, index, and allow you to query their content.
 
@@ -186,12 +186,12 @@ Follow these steps to set up the Python environment and run the application.
     ![Alt text for the image](images/s.2png)
 3. **User Query**: The user asks a question in the chat interface.
     ![Alt text for the image](images/s.3png)
-4.  **Similarity Search**: The user's question is also converted into an embedding using the same local embedding model. The FAISS index is then searched to find the text chunks from the document that are most semantically similar to the question.
-    
+4.  **Similarity Search**: The user's question is also converted into an embedding using the same local embedding model. The FAISS index is then searched to find  the text chunks from the document that are most semantically similar to the question.
+    ![Alt text for the image](images/s.4png)
 5.  **LLM Answering**: The relevant text chunks (the "context") and the original question are sent in a formatted prompt to the **locally running Ollama API endpoint**.
-    
+    ![Alt text for the image](images/s.5png)
 6. **Display Answer**: The LLaMA 3.2 model then generates an answer based on the provided context, which is immediately displayed to the user in the chat interface.
-    
+    ![Alt text for the image](images/s.6png)
 
  ## File Structure
 
