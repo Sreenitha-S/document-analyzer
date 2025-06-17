@@ -104,7 +104,7 @@ Follow these steps to set up the Python environment and run the application.
 * `llm_query.py`: Contains functions for querying the index and making API requests to the Ollama server.
 * `requirements.txt`: A list of all required Python packages.
 
-#Document Analyzer App (Offline)
+#Document Analyzer App (using Tkinter)
 
 This project presents an **offline-capable Document Analyzer App** built using Python's `tkinter` for the graphical user interface, enabling users to chat with their documents locally. You can upload PDF, DOCX, or TXT files, and the application will process, index, and allow you to query their content.
 
