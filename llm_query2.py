@@ -1,6 +1,6 @@
 import os
 
-os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # FIX: To prevent OpenMP runtime error
+#os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # FIX: To prevent OpenMP runtime error
 
 import faiss
 import pickle
@@ -26,7 +26,7 @@ def load_faiss_index(index_folder):
     return index, metadata
 
 
-def answer_with_llama(context, question, model_tag="llama3.2:3b"):
+def answer_with_llama(context, question, model_tag="llama3.2:3b", ollama_url="http://localhost:11434"):
     """Generates an answer using a local Ollama model."""
     prompt = f"""Use the context below to answer the question clearly and precisely.
 
@@ -38,20 +38,24 @@ def answer_with_llama(context, question, model_tag="llama3.2:3b"):
 
             Answer:"""
 
-    print(f"Querying Ollama with model: {model_tag}")
-    response = requests.post(
-        "http://localhost:11434/api/generate",
-        json={
-            "model": model_tag,
-            "prompt": prompt,
-            "stream": False
-        }
-    )
-    response.raise_for_status()
-    return response.json()["response"].strip()
+    print(f"Querying Ollama at {ollama_url} with model: {model_tag}")
+    try:
+        response = requests.post(
+            f"{ollama_url}/api/generate",
+            json={
+                "model": model_tag,
+                "prompt": prompt,
+                "stream": False,
+            },
+        )
+        response.raise_for_status()
+        return response.json()["response"].strip()
+    except requests.exceptions.RequestException as e:
+        print(f"Error querying Ollama: {e}")
+        return f"Error: Could not retrieve answer from Ollama. {e}"
 
 
-def query_document(question, index_folder, tokenizer, device, embed_model, top_k=5):
+def query_document(question, index_folder, tokenizer, device, embed_model, top_k=5, ollama_url="http://localhost:11434"):
     """Orchestrates the process of querying the document."""
     index, metadata = load_faiss_index(index_folder)
     if index is None:
@@ -70,5 +74,5 @@ def query_document(question, index_folder, tokenizer, device, embed_model, top_k
     context = "\n".join(context_chunks)
 
     print("Generating answer with local LLM...")
-    answer = answer_with_llama(context, question)
+    answer = answer_with_llama(context, question, ollama_url=ollama_url)
     return answer, context_chunks

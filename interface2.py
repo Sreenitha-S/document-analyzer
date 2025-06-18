@@ -16,7 +16,7 @@ import llm_query2
 # --- Configuration ---
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 INDEX_OUTPUT_FOLDER = "vector_index"
-
+DEFAULT_OLLAMA_URL = "http://localhost:11434"
 
 class DocQAApp:
     def __init__(self, root):
@@ -37,6 +37,7 @@ class DocQAApp:
 
         self.create_upload_section(main_frame)
         self.create_processing_section(main_frame)
+        self.create_ollama_url_section(main_frame)
         self.create_qa_section(main_frame)
 
         self.root.after(100, self.process_queue)
@@ -93,6 +94,15 @@ class DocQAApp:
                                                  style="Status.TLabel")
         self.processing_status_label.pack(pady=5)
 
+    def create_ollama_url_section(self, parent):
+            frame = ttk.Frame(parent, padding=10, style="Section.TFrame")
+            frame.pack(fill='x', pady=5)
+            ttk.Label(frame, text="Ollama API URL:", style="SubHeader.TLabel").pack(anchor='w')
+            self.ollama_url_entry = ttk.Entry(frame, width=50)
+            self.ollama_url_entry.insert(0, DEFAULT_OLLAMA_URL)  # Set default value
+            self.ollama_url_entry.pack(fill='x', pady=5)
+            ttk.Label(frame, text="e.g., http://localhost:11434 or http://<your_server_ip>:11434",  style="Status.TLabel").pack(anchor='w')
+
     def create_qa_section(self, parent):
         frame = ttk.Frame(parent, padding=10, style="Section.TFrame")
         frame.pack(fill='both', expand=True, pady=5)
@@ -148,17 +158,23 @@ class DocQAApp:
             messagebox.showwarning("No Index",
                                    "The document has not been indexed yet. Please process the document first.")
             return 'break'
+        ollama_url = self.ollama_url_entry.get().strip()
+        if not ollama_url:
+            messagebox.showwarning("Ollama URL Missing", "Please enter the Ollama API URL.")
+            return 'break'
+        thread = threading.Thread(target=self._query_document_worker, args=(question, ollama_url,), daemon=True)
+
         self.update_chat_display("user", question)
         self.question_input.delete("1.0", tk.END)
         self.ask_button.config(state="disabled")
-        thread = threading.Thread(target=self._query_document_worker, args=(question,), daemon=True)
+       # thread = threading.Thread(target=self._query_document_worker, args=(question,), daemon=True)
         thread.start()
         return 'break'
 
-    def _query_document_worker(self, question):
+    def _query_document_worker(self, question, ollama_url):
         try:
             answer, context_chunks = llm_query2.query_document(question, INDEX_OUTPUT_FOLDER, self.tokenizer,
-                                                               self.device, self.embed_model)
+                                                               self.device, self.embed_model, ollama_url=ollama_url)
             self.queue.put(("new_answer", (answer, context_chunks)))
         except Exception as e:
             self.queue.put(("error", f"Query Error: {e}"))
