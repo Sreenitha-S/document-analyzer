@@ -200,3 +200,11 @@ Follow these steps to set up the Python environment and run the application.
  * **`llm_query.py`**: Contains functions for querying the FAISS index and making API requests to the Ollama server to get answers from the LLM. It also uses  `core_utils` for embedding the query.
  * **`core_utils.py`**: A new utility file containing reusable functions for text extraction, text chunking, and text embedding that are shared by both the  `indexing` and `llm_query` modules.
  * **`requirements.txt`**: A list of all required Python packages.
+   ## ▶️ How to Run Using the bat file 
+
+
+
+Run the script via double-click or terminal:
+
+```bash
+run_interface2.bat
