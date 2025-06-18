@@ -11,12 +11,12 @@ from transformers import AutoTokenizer, AutoModel
 
 # --- Import your refactored backend modules with new names ---
 import indexing2
-import llm_query2
+import llm_query2 # Ensure this is the updated llm_query.py, renamed to llm_query2 for your structure
 
 # --- Configuration ---
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 INDEX_OUTPUT_FOLDER = "vector_index"
-DEFAULT_OLLAMA_URL = "http://localhost:11434"
+DEFAULT_OLLAMA_URL = "http://localhost:11434" # Default URL for convenience
 
 class DocQAApp:
     def __init__(self, root):
@@ -37,7 +37,7 @@ class DocQAApp:
 
         self.create_upload_section(main_frame)
         self.create_processing_section(main_frame)
-        self.create_ollama_url_section(main_frame)
+        self.create_ollama_url_section(main_frame) # THIS IS THE NEW SECTION FOR URL INPUT
         self.create_qa_section(main_frame)
 
         self.root.after(100, self.process_queue)
@@ -95,13 +95,15 @@ class DocQAApp:
         self.processing_status_label.pack(pady=5)
 
     def create_ollama_url_section(self, parent):
-            frame = ttk.Frame(parent, padding=10, style="Section.TFrame")
-            frame.pack(fill='x', pady=5)
-            ttk.Label(frame, text="Ollama API URL:", style="SubHeader.TLabel").pack(anchor='w')
-            self.ollama_url_entry = ttk.Entry(frame, width=50)
-            self.ollama_url_entry.insert(0, DEFAULT_OLLAMA_URL)  # Set default value
-            self.ollama_url_entry.pack(fill='x', pady=5)
-            ttk.Label(frame, text="e.g., http://localhost:11434 or http://<your_server_ip>:11434",  style="Status.TLabel").pack(anchor='w')
+        # THIS IS THE SECTION THAT CREATES THE INPUT BOX FOR THE OLLAMA URL
+        frame = ttk.Frame(parent, padding=10, style="Section.TFrame")
+        frame.pack(fill='x', pady=5)
+        ttk.Label(frame, text="Ollama API URL:", style="SubHeader.TLabel").pack(anchor='w')
+        self.ollama_url_entry = ttk.Entry(frame, width=50)
+        self.ollama_url_entry.insert(0, DEFAULT_OLLAMA_URL) # Pre-fill with a default, but user can change it
+        self.ollama_url_entry.pack(fill='x', pady=5)
+        ttk.Label(frame, text="e.g., http://localhost:11434 or http://<your_server_ip>:11434", style="Status.TLabel").pack(anchor='w')
+
 
     def create_qa_section(self, parent):
         frame = ttk.Frame(parent, padding=10, style="Section.TFrame")
@@ -158,21 +160,24 @@ class DocQAApp:
             messagebox.showwarning("No Index",
                                    "The document has not been indexed yet. Please process the document first.")
             return 'break'
+
+        # THIS IS WHERE THE USER'S INPUT URL IS READ FROM THE TEXT BOX
         ollama_url = self.ollama_url_entry.get().strip()
         if not ollama_url:
             messagebox.showwarning("Ollama URL Missing", "Please enter the Ollama API URL.")
             return 'break'
-        thread = threading.Thread(target=self._query_document_worker, args=(question, ollama_url,), daemon=True)
 
         self.update_chat_display("user", question)
         self.question_input.delete("1.0", tk.END)
         self.ask_button.config(state="disabled")
-       # thread = threading.Thread(target=self._query_document_worker, args=(question,), daemon=True)
+        # AND PASSED TO THE WORKER THREAD
+        thread = threading.Thread(target=self._query_document_worker, args=(question, ollama_url,), daemon=True)
         thread.start()
         return 'break'
 
-    def _query_document_worker(self, question, ollama_url):
+    def _query_document_worker(self, question, ollama_url): # Worker function receives the URL
         try:
+            # The URL is then passed to your llm_query2 module
             answer, context_chunks = llm_query2.query_document(question, INDEX_OUTPUT_FOLDER, self.tokenizer,
                                                                self.device, self.embed_model, ollama_url=ollama_url)
             self.queue.put(("new_answer", (answer, context_chunks)))
@@ -210,7 +215,7 @@ class DocQAApp:
             elif msg_type == "enable_ask_button":
                 self.ask_button.config(state="normal")
         except:
-            pass
+            pass # No items in the queue
         finally:
             self.root.after(100, self.process_queue)
 

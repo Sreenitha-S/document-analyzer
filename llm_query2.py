@@ -1,13 +1,10 @@
 import os
-
-#os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # FIX: To prevent OpenMP runtime error
-
 import faiss
 import pickle
 import requests
 import numpy as np
 
-# Import from your new shared utility file
+# Import from your new shared utility file (assuming core_utils.py exists and works)
 import core_utils
 
 
@@ -41,7 +38,7 @@ def answer_with_llama(context, question, model_tag="llama3.2:3b", ollama_url="ht
     print(f"Querying Ollama at {ollama_url} with model: {model_tag}")
     try:
         response = requests.post(
-            f"{ollama_url}/api/generate",
+            f"{ollama_url}/api/generate", # Uses the provided ollama_url
             json={
                 "model": model_tag,
                 "prompt": prompt,
@@ -74,5 +71,5 @@ def query_document(question, index_folder, tokenizer, device, embed_model, top_k
     context = "\n".join(context_chunks)
 
     print("Generating answer with local LLM...")
-    answer = answer_with_llama(context, question, ollama_url=ollama_url)
+    answer = answer_with_llama(context, question, ollama_url=ollama_url)  # Passes the ollama_url received
     return answer, context_chunks
