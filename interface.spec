@@ -2,7 +2,11 @@
 
 
 a = Analysis(
+<<<<<<< HEAD
     ['interface.py'],
+=======
+    ['interface2.py'],
+>>>>>>> origin/main
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +26,11 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
+<<<<<<< HEAD
     name='interface',
+=======
+    name='DocumentQAApp',
+>>>>>>> origin/main
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
