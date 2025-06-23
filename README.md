@@ -106,6 +106,8 @@ Follow these steps to set up the Python environment and run the application.
 
 # Document Analyzer App (using Tkinter)
 
+# Document Analyzer
+
 This Document Analyzer is a tool that utilizes a local Large Language Model (LLM) to answer questions about your documents. It works by processing and indexing your documents, and then using the Ollama service to generate answers based on the document's content.
 
 ## Setup and Installation
@@ -185,7 +187,39 @@ This is the simplest way to run the application without manual setup.
 ### Step 1: Run the Application
 
 Launch the application by either running the `run_interface2.bat` file or executing `python interface2.py` from your terminal.
+![Alt text for the image](images/terminal.png)
 
 ### Step 2: Upload a Document
 
-Click the "Browse Files" button to open a file dialog. Select a supported document (`.pdf`, `.docx`, or `.txt`)
+Click the "Browse Files" button to open a file dialog. Select a supported document (`.pdf`, `.docx`, or `.txt`) from your computer. A success message will appear once the file is selected.
+![Alt text for the image](images/browsefile.png)
+
+### Step 3: Process and Index
+
+Click the "Process and Index Document" button. The application will perform the following tasks in the background:
+* Extract text from the document.
+* Split the text into chunks.
+* Create vector embeddings for each chunk.
+* Build a FAISS index and save it to the `vector_index` folder.
+
+A status message will indicate when the process is complete. This step only needs to be done once per document.
+![Alt text for the image](images/process2.png)
+
+### Step 4: Configure Ollama URL
+
+An input box labeled "Ollama API URL" is provided.
+* If you are running Ollama on the **same machine** as the UI, the default `http://localhost:11434` is correct.
+* If you are running Ollama on a **different server machine**, you must replace `localhost` with the server's IP address (e.g., `http://192.168.1.50:11434`).
+  ![Alt text for the image](images/process2.png)
+
+### Step 5: Ask Questions
+
+Once a document is indexed, you can begin asking questions.
+* Type your question into the input box at the bottom.
+* Click the "Ask" button or press Enter.
+  ![Alt text for the image](images/ask.png)
+
+### Step 6: View Answer
+
+* The application will find the most relevant context from your document, send it to the local LLM for processing, and display the generated answer in the chat window. The context used to generate the answer will be shown for reference.
+  ![Alt text for the image](images/ans.png)
