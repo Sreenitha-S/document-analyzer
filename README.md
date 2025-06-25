@@ -223,3 +223,90 @@ Once a document is indexed, you can begin asking questions.
 
 * The application will find the most relevant context from your document, send it to the local LLM for processing, and display the generated answer in the chat window. The context used to generate the answer will be shown for reference.
   ![Alt text for the image](images/ans.png)
+
+
+
+  # 📄 Document Analyzer App for Multiple Documents
+
+ Getting Started
+
+###  Prerequisites
+
+- Python 3.8+
+- pip (Python package manager)
+- Ollama (for local LLaMA model): [https://ollama.com](https://ollama.com)
+
+```bash
+ollama pull llama3
+```
+
+---
+
+###  Installation
+
+```bash
+# Step 1: Clone this repo or extract the folder
+cd path/to/document-analyzer
+
+# Step 2: (Optional) Create a virtual environment
+python -m venv venv
+.\venv\Scripts\activate   # On Windows
+source venv/bin/activate # On Mac/Linux
+
+# Step 3: Install dependencies
+pip install -r requirements.txt
+
+# Step 4: Pull and run LLaMA model
+ollama pull llama3
+ollama serve
+
+# Step 5: Launch app
+python -m streamlit run interface.py
+```
+
+---
+
+###  Hosting in LAN
+
+```bash
+streamlit run interface.py --server.address=0.0.0.0 --server.port=8501
+```
+
+Then access on any LAN-connected device using:
+```
+http://<your-ip>:8501
+```
+
+Check your IP using:
+```bash
+ipconfig      # Windows
+ifconfig      # Linux/Mac
+```
+
+📌 Allow firewall access on port 8501.
+
+---
+  ## How to Use the Application
+
+1. **Launch App**
+   ```bash
+   python -m streamlit run interface.py
+   ```
+
+2. **Upload Documents**
+   - PDF, DOCX, or TXT supported
+
+3. **Click “Process and Index Document(s)”**
+
+4. **Ask Questions**
+   - Use the input box to ask questions
+
+5. **Read Answers**
+   - App displays AI-generated answers with context
+
+6. **Summarize (Optional)**
+   - Click “Generate Summary for Each Document”
+
+---
+
+
