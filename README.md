@@ -292,20 +292,26 @@ ifconfig      # Linux/Mac
    ```bash
    python -m streamlit run interface.py
    ```
+   ![Alt text for the image](images/ONE.png)
 
 2. **Upload Documents**
    - PDF, DOCX, or TXT supported
+   - ![Alt text for the image](images/Screenshot2025-06-25145638.png)
 
 3. **Click “Process and Index Document(s)”**
+   - ![Alt text for the image](images/Screenshot2025-06-25145709.png)
 
 4. **Ask Questions**
    - Use the input box to ask questions
+   - ![Alt text for the image](images/Screenshot2025-06-25145935.png)
 
 5. **Read Answers**
    - App displays AI-generated answers with context
+   - ![Alt text for the image](images/Screenshot2025-06-25150034.png)
 
 6. **Summarize (Optional)**
    - Click “Generate Summary for Each Document”
+   - ![Alt text for the image](images/Screenshot2025-06-25150426.png)
 
 ---
 
