@@ -112,6 +112,17 @@ This Document Analyzer is a tool that utilizes a local Large Language Model (LLM
 
 ## Setup and Installation
 
+### Prerequisites:  Install Python
+- Download Python from: https://www.python.org/downloads/
+- During installation, **check the box** to "Add Python to PATH".
+
+### 🛠 Install Visual Studio Build Tools (Windows only)
+- Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+- Select the following workloads during installation:
+  - ✅ C++ build tools
+  - ✅ Windows 10 SDK
+
+
 ### Prerequisites: Installing Ollama
 
 The Document Analyzer requires the Ollama service to be running to provide generative AI capabilities. Ollama must be installed and running on the machine that will act as the LLM server.
@@ -296,22 +307,22 @@ ifconfig      # Linux/Mac
 
 2. **Upload Documents**
    - PDF, DOCX, or TXT supported
-   - ![Alt text for the image](images/Screenshot2025-06-25145638.png)
+   - ![Alt text for the image](images/TWO.png)
 
 3. **Click “Process and Index Document(s)”**
-   - ![Alt text for the image](images/Screenshot2025-06-25145709.png)
+   - ![Alt text for the image](images/THREE.png)
 
 4. **Ask Questions**
    - Use the input box to ask questions
-   - ![Alt text for the image](images/Screenshot2025-06-25145935.png)
+   - ![Alt text for the image](images/FOUR.png)
 
 5. **Read Answers**
    - App displays AI-generated answers with context
-   - ![Alt text for the image](images/Screenshot2025-06-25150034.png)
+   - ![Alt text for the image](images/FIVE.png)
 
 6. **Summarize (Optional)**
    - Click “Generate Summary for Each Document”
-   - ![Alt text for the image](images/Screenshot2025-06-25150426.png)
+   - ![Alt text for the image](images/SIX.png)
 
 ---
 
